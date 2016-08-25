@@ -27,7 +27,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.ThemeConfig;
 //import android.content.res.ThemeConfig;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -105,14 +104,7 @@ public final class DUActionUtils {
     }
 
     public static boolean navigationBarCanMove() {
-        boolean canMove = false;
-        try {
-            IWindowManager windowService = IWindowManager.Stub.asInterface(
-                    ServiceManager.getService("window"));
-            canMove = windowService.navigationBarCanMove();
-        } catch (Exception e) {
-        }
-        return canMove;
+        return Resources.getSystem().getConfiguration().smallestScreenWidthDp < 600;
     }
 
     public static boolean hasNavbarByDefault(Context context) {
@@ -620,6 +612,9 @@ public final class DUActionUtils {
         if (context == null || defRes == null || drawableName == null)
             return null;
 
+        // TODO: turn on cmte support when it comes back
+        return getDrawable(defRes, drawableName, PACKAGE_SYSTEMUI);
+/*
         ThemeConfig themeConfig = context.getResources().getConfiguration().themeConfig;
 
         Drawable d = null;
@@ -654,5 +649,6 @@ public final class DUActionUtils {
             d = getDrawable(defRes, drawableName, PACKAGE_SYSTEMUI);
         }
         return d;
+        */
     }
 }
